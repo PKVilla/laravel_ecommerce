@@ -17,8 +17,18 @@ Route::get('/', function () {
     return "<small>hello world</small>";
 });
 	//greet person
-	Route::get('/sample', "SampleController@greetPerson");
+	// Route::get('/sample', "SampleController@greetPerson");
 	//fruits
-	Route::get('/fruits', "SampleController@nameofFruits");
+	// Route::get('/fruits', "SampleController@nameofFruits");
 
 	Route::get('/catalog', "ItemController@showItems");
+
+	// route::get('/menu/add', function(){
+	// 	return view('items.add_items');
+	// });
+	route::get('/menu/add', 'ItemController@showAdditemForm');
+
+	route::post('/menu/add', 'ItemController@saveItems');
+	
+	route::get('/menu/{id}', 'ItemController@itemDetails');
+
