@@ -15,6 +15,11 @@
 </head>
 <body>
 <div class="container mt-5">
+
+	<div class="alert">
+		{{ Session::get('successmessage')}}		
+	</div>
+	
 	<h2 class="text-center">Catalog</h2>
 	<h3>Categories</h3>
 	@foreach($categories as $category)

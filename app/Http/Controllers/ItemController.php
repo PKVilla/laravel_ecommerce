@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Item;
 use App\Category;
+use Session;
 
 class ItemController extends Controller
 {
@@ -49,7 +50,8 @@ class ItemController extends Controller
     	
     	$item->img_path = $destination.$image_name;
     	$item->save();
-  		// return view('items/catalog');
+    	Session::flash('successmessage', 'Successfully added');
+  		return redirect('/catalog');
     }
 
     public function deleteItem($id){
