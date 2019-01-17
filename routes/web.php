@@ -32,3 +32,9 @@ Route::get('/', function () {
 	
 	route::get('/menu/{id}', 'ItemController@itemDetails');
 
+	route::delete('/menu/{id}/delete', 'ItemController@deleteItem');
+
+	route::get('/menu/{id}/edit', 'ItemController@showEditForm');
+
+	route::put('/menu/{id}/edit', 'ItemController@updateItem');
+

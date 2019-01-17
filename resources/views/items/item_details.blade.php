@@ -25,15 +25,64 @@
 				<p>{{ $itemdetails->name }}</p>
 				<p>{{ $itemdetails->description }}</p>
 				<p>{{ $itemdetails->price }}</p>
-					<a class="btn btn-primary" href="">Edit</a>
-					<a class="btn btn-danger" href="">Delete</a>
+					<a class="btn btn-primary w-100 mb-2" href="/menu/{{$itemdetails->id}}/edit">Edit</a>
+					<a class="btn btn-danger w-100" href="" data-toggle="modal" data-target="#Deletemodal">Delete</a>
 			</div>
 			</div>
 			</div>
 		</div>
 	</div>
 
-		
+		<!-- Delete modal -->
+		<div id="Deletemodal" class="modal" tabindex="-1" role="dialog">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title">Modal title</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		      		<p>Do you want to delete this {{ $itemdetails->name }}?</p>
+		       		<form method="POST" action="/menu/{{$itemdetails->id}}/delete">
+		       			{{csrf_field()}}
+		       			{{method_field('DELETE')}}
+		       			<button type="submit" class="btn btn-primary">Confirm</button>
+		       		</form>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		        <button type="button" class="btn btn-primary">Save changes</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		<!-- Edit Modal -->
+		<div id="Editmodal" class="modal" tabindex="-1" role="dialog">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title">Modal title</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		      <p>Do you want to edit this {{ $itemdetails->name }}?</p>
+		        	<form method="POST" action="/menu/{{$itemdetails->id}}/delete">
+		       			{{ csrf_field() }}
+		       			{{ method_field('PUT') }}
+		       			<button type="submit" class="btn btn-primary">Confirm</button>
+		       		</form>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		        <button type="button" class="btn btn-primary">Save changes</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
 
 		
 

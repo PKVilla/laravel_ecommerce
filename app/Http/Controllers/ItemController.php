@@ -25,6 +25,7 @@ class ItemController extends Controller
     }
 
     public function  saveItems(request $request){
+    	//input fields taht needs to be validated
     	$rules = array(
     		"itemname" => "required",
     		"itemdescription" => "required",
@@ -40,6 +41,7 @@ class ItemController extends Controller
     	$item->price = $request->itemprice;
     	$item->category_id = 1;
 
+    	//upload image
     	$image = $request->file('itemimg_path');
     	$image_name = time().".".$image->getClientOriginalExtension(); /*will get the original name and connect it with the current time*/
     	$destination = "images/";/*file destination folder*/
@@ -48,6 +50,49 @@ class ItemController extends Controller
     	$item->img_path = $destination.$image_name;
     	$item->save();
   		// return view('items/catalog');
+    }
+
+    public function deleteItem($id){
+    	$itemdelete = Item::find($id);
+    	$itemdelete->delete();
+    	return redirect('/catalog');
+    }
+
+    public function showEditForm($id){
+    	$itemedit = Item::find($id);
+    	$categories = Category::all();
+    	return view('items.edit_form', compact('itemedit', 'categories'));	
+    }
+
+    public function updateItem($id, request $request){
+    	$itemupdate = Item::find($id);
+    	
+    	//validation
+    	$rules = array(
+    		"name" => "required",
+    		"description" => "required",
+    		"price" => "required|numeric",
+    		"categories" => "required",
+    		"image_path" => "image|mimes:jpeg, jpg, png, gif, svg| max:2048"
+    		);
+    	$this->validate($request, $rules);
+
+    	$itemupdate->name = $request->name;
+    	$itemupdate->description = $request->description;
+    	$itemupdate->price = $request->price;
+    	$itemupdate->category_id = $request->categories;
+    	
+    	if ($request->file('image_path')!=null) {
+	    	$image = $request->file('image_path');
+	    	$image_name = time().".".$image->getClientOriginalExtension();
+	    	$destination = "images/";
+	    	$image->move($destination, $image_name);
+	    	$itemupdate->img_path = $destination.$image_name;
+    	}
+    	
+    	$itemupdate->save();
+
+    	return redirect('/menu/'.$id); // returns to itemdetails
     }
 }
 	
