@@ -14,11 +14,19 @@
 	<title></title>
 </head>
 <body>
-<div class="container mt-5">
 
-	<div class="alert">
+	{{-- {{ dd(Session::get('cart'))}} --}}
+
+<div class="container mt-5">
+@if(Session::has('successmessage')) <!-- if session has successmessage -->
+	<div class="alert alert-success">
 		{{ Session::get('successmessage')}}		
 	</div>
+	@elseif(Session::has('deletemessage'))
+	<div class="alert alert-danger">
+		{{ Session::get('deletemessage')}}
+	</div>
+	@endif
 	
 	<h2 class="text-center">Catalog</h2>
 	<h3>Categories</h3>
@@ -33,15 +41,21 @@
 		<h2 class="text-center">Current Items</h2>
 		<div class="container">
 			<div class="row">
-			<div class="card">
 			@foreach($items as $item)
-				
-				<a href="/menu/{{$item->id}}">{{$item->name}}</a>
-
+			<div class="card mr-auto">
+				<img class="img-fluid" style="width: 200px; height: 200px;" src="{{$item->img_path}}">
+				<h4 class="text-center"><a href="/menu/{{$item->id}}">{{$item->name}}</a></h4>
+				<form method="POST" action="/addToCart/{{$item->id}}">
+				{{csrf_field()}}
+				<label>Quantity:</label>
+				<input type="number" name="quantity" id="quantity" class="form-control" value="1"></input>
+				<button class="btn btn-primary w-100">Add to Cart</button>
+				</form>
+			</div>
 			@endforeach
 
-	</div>
-	<a href="/menu/add">Add new item</a>
+	<a class="btn btn-success" href="/menu/add">Add new item</a>
+	<a href="/showcart" class="btn btn-success">showcart</a>
 	</div>
 	</div>
 </div>

@@ -57,6 +57,7 @@ class ItemController extends Controller
     public function deleteItem($id){
     	$itemdelete = Item::find($id);
     	$itemdelete->delete();
+    	Session::flash('deletemessage', "item deleted successfully!");
     	return redirect('/catalog');
     }
 
@@ -93,8 +94,47 @@ class ItemController extends Controller
     	}
     	
     	$itemupdate->save();
-
+    	Session::flash('successmessage', 'item updated successfully!');
     	return redirect('/menu/'.$id); // returns to itemdetails
+    }
+
+    //cart
+    public function addToCart($id, request $request){
+    	//if cart has an item already
+    	if (Session::has('cart')) {
+    		$cart = Session::get('cart');
+    	}else{
+    		$cart = []; //if none, initialixe cart || this array is for cart to add items on it	
+    	}
+
+    	// if item on cart is alreay set
+    	if (isset($cart[$id])) {
+    		$cart[$id] += $request->quantity; // this will only add the quantity on the existing item
+    	}else{
+    		$cart[$id] = $request->quantity; //this will create the item on the cart and quantity
+    	}
+    	Session::put('cart', $cart);
+    	
+    	return redirect('/catalog');
+
+    }
+
+    public function showCart(){
+    	$item_cart = []; //where to push all the content of the session cart
+
+    	if (Session::has('cart')) {
+    		$cart = Session::get('cart');
+    		$total = 0;
+    		foreach ($cart as $id => $quantity) {
+    			$item = Item::find($id); //item id from the session cart
+    			$item->quantity = $quantity;
+    			$item->subtotal = $item->price * $quantity;
+    			$total += $item->subtotal;
+    			$item_cart[] = $item; // that has the id, name, description, price, img_path, category, and quantity and subtotal
+    			return view('items.cart_content', compact('item_cart', 'total'));
+    		}
+    		
+    	}
     }
 }
 	

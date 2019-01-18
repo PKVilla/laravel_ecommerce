@@ -38,3 +38,11 @@ Route::get('/', function () {
 
 	route::put('/menu/{id}/edit', 'ItemController@updateItem');
 
+	//route for add to cart
+	route::post('/addToCart/{id}', 'ItemController@addToCart');
+
+	route::get('/showcart', 'ItemController@showCart');
+
+
+
+

@@ -16,6 +16,11 @@
 <body>
 
 	<div class="container mt-5">
+	@if(Session::has('successmessage'))
+		<div class="alert alert-success">
+				{{ Session::get('successmessage')}}		
+		</div>
+	@endif
 		<div class="row">
 			<div class="col-lg-3">
 			<div class="card">
