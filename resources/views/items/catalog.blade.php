@@ -15,7 +15,6 @@
 </head>
 <body>
 
-	{{-- {{ dd(Session::get('cart'))}} --}}
 
 <div class="container mt-5">
 @if(Session::has('successmessage')) <!-- if session has successmessage -->
@@ -49,7 +48,7 @@
 				{{csrf_field()}}
 				<label>Quantity:</label>
 				<input type="number" name="quantity" id="quantity" class="form-control" value="1"></input>
-				<button class="btn btn-primary w-100">Add to Cart</button>
+				<button class="btn btn-primary w-100" type="submit">Add to Cart</button>
 				</form>
 			</div>
 			@endforeach

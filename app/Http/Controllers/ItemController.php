@@ -99,10 +99,10 @@ class ItemController extends Controller
     }
 
     //cart
-    public function addToCart($id, request $request){
+    public function addToCart($id, Request $request){
     	//if cart has an item already
-    	if (Session::has('cart')) {
-    		$cart = Session::get('cart');
+    	if (Session::has("cart")) {
+    		$cart = Session::get("cart");
     	}else{
     		$cart = []; //if none, initialixe cart || this array is for cart to add items on it	
     	}
@@ -113,13 +113,18 @@ class ItemController extends Controller
     	}else{
     		$cart[$id] = $request->quantity; //this will create the item on the cart and quantity
     	}
-    	Session::put('cart', $cart);
+
+
+        // Session::forget("cart");
+    	Session::put("cart", $cart);
     	
     	return redirect('/catalog');
 
     }
 
     public function showCart(){
+
+
     	$item_cart = []; //where to push all the content of the session cart
 
     	if (Session::has('cart')) {
@@ -131,10 +136,30 @@ class ItemController extends Controller
     			$item->subtotal = $item->price * $quantity;
     			$total += $item->subtotal;
     			$item_cart[] = $item; // that has the id, name, description, price, img_path, category, and quantity and subtotal
-    			return view('items.cart_content', compact('item_cart', 'total'));
-    		}
-    		
-    	}
+    			// dd($item_cart);
+            }
+            
+        }
+    		return view('items.cart_content', compact('item_cart', 'total'));
+    }
+
+    public function deletecart($id){
+        session::forget("cart.$id"); //$cart[$id]
+        return redirect('/showcart');
+    }
+
+    public function clearcart(){
+        session::forget('cart');
+        return redirect('/catalog');
+    }
+
+    public function updatecart($id, Request $request){
+        $cart = session::get('cart'); //get all the items in cart
+        $cart[$id]= $request->newquantity;
+        session::put('cart', $cart);
+        return redirect('/showcart');
+        // $cart->
+        // dd($cart);
     }
 }
 	

@@ -16,12 +16,13 @@
 </head>
 <body>
 	
+	@if($item_cart != null)
 	<div class="container mt-5">
 		<div class="col-lg-12">
 			<!-- <div class="row"> -->
 			<h1>My Cart</h1>
 				<div>
-					<table class="table">
+					<table class="table table-striped">
 						<thead>
 							<tr>
 								<th>Item</th>
@@ -35,21 +36,44 @@
 							@foreach($item_cart as $cart)
 							<tr>
 								<td>{{$cart->name}}</td>
-								<td>{{$cart->quantity}}</td>
-								<td>{{$cart->price}}</td>
-								<td>{{$cart->subtotal}}</td>
-								
+									<td>
+										<form action="/menu/mycart/{{$cart->id}}/updatecart" method="POST">
+											{{ csrf_field()}}
+											{{ method_field('PATCH')}}
+											<input type="number" name="newquantity" value="{{$cart->quantity}}"></input> <button class="btn btn-primary">Update Quantity</button>
+											</form>
+											</td>
+											<td>{{$cart->price}}</td>
+											<td>{{$cart->subtotal}}</td>
+											<td>
+											<form action="/menu/mycart/{{$cart->id}}/delete" method="POST">
+											{{ csrf_field() }}
+											{{ method_field('DELETE') }}
+										<button type="submit" class="btn btn-danger">Remove</button>
+									</form>
+								<td>
+									
 							</tr>
 							@endforeach
+							<td>Total:{{$total}}</td>
 						</tbody>
 					</table>
-					
-					<h3>Total:{{$total}}</h3>
-
-					<button class="btn btn-success">Go back to Shop!</button>
+					<button class="btn btn-success"><a href="/catalog">Go back to Shop!</a></button>
+					<br>
+					<form action="/menu/clearcart" method="POST">
+					{{ csrf_field() }}
+					<button class="btn btn-danger">Clear Cart</button>
+					</form>
 				</div>
 			</div>
 		</div>
 	<!-- </div> -->
+	@else
+	<div class="container mt-5">
+		<h3>Your cart is empty</h3>
+		<a href="/catalog" class="btn btn-primary">Go back to shop.</a>
+		
+	</div>
+	@endif
 </body>
 </html>

@@ -14,14 +14,22 @@
 
 
 Route::get('/', function () {
-    return "<small>hello world</small>";
+    return view('welcome');
 });
+
+	route::middleware('auth')->group(function(){
+		//routes
+		Route::get('/catalog', "ItemController@showItems");
+		//route to show the cart
+		route::get('/showcart', 'ItemController@showCart');
+	});
+
 	//greet person
 	// Route::get('/sample', "SampleController@greetPerson");
 	//fruits
 	// Route::get('/fruits', "SampleController@nameofFruits");
 
-	Route::get('/catalog', "ItemController@showItems");
+	
 
 	// route::get('/menu/add', function(){
 	// 	return view('items.add_items');
@@ -40,9 +48,29 @@ Route::get('/', function () {
 
 	//route for add to cart
 	route::post('/addToCart/{id}', 'ItemController@addToCart');
+	
+	
+	
+	//route to the function delete cart
+	route::delete('/menu/mycart/{id}/delete', 'ItemController@deletecart');
+	
+	//route to the function to clear the cart
+	route::post('/menu/clearcart', 'ItemController@clearcart');
+	
+	//route to update the item quantity
+	route::patch('/menu/mycart/{id}/updatecart', 'ItemController@updatecart');
+	
+	//route to update the item
+	route::put('/menu/{id}', 'ItemController@updateitem');
 
-	route::get('/showcart', 'ItemController@showCart');
 
 
 
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
 
