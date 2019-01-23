@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Item;
 use App\Category;
 use Session;
+use App\Order;
+use DB;
+use Auth;
 
 class ItemController extends Controller
 {
@@ -160,6 +163,37 @@ class ItemController extends Controller
         return redirect('/showcart');
         // $cart->
         // dd($cart);
+    }
+
+    public function checkout(){
+        $order = new Order;
+        $order->user_id = Auth::user()->id; // where to get the id of the user and the user must be login
+        $order->status_id = 1;
+        $order->total = 0;
+        $order->save();
+
+        $cartitems = session::get('cart');
+        $total = 0;
+        foreach ($cartitems as $item_id => $quantity) {
+            // $order_id = DB::table('orders')->orderBy('created_at', 'desc')->first();
+            // $item_orders = DB::table('item_orders')->insert(['item_id' => $item_id, 'order_id' => $order_id->id, 'quantity' => $quantity]);
+
+        $order->items()->attach($item_id,['quantity' => $quantity]);
+
+        $item = Item::find($item_id);     
+        $total += $item->price * $quantity;
+        }
+
+        $ordertotal = Order::find($order->id);
+        $ordertotal->total = $total;
+        $ordertotal->save();
+
+        return redirect('catalog');
+    }
+
+    public function transaction(){
+        $orders = Order::all();
+        return view('items.transaction', compact('orders'));
     }
 }
 	

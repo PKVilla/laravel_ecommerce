@@ -22,6 +22,10 @@ Route::get('/', function () {
 		Route::get('/catalog', "ItemController@showItems");
 		//route to show the cart
 		route::get('/showcart', 'ItemController@showCart');
+
+		route::post('/addToCart/{id}', 'ItemController@addToCart');
+		//route to the function to clear the cart
+		route::post('/menu/clearcart', 'ItemController@clearcart');
 	});
 
 	//greet person
@@ -47,18 +51,22 @@ Route::get('/', function () {
 	route::put('/menu/{id}/edit', 'ItemController@updateItem');
 
 	//route for add to cart
-	route::post('/addToCart/{id}', 'ItemController@addToCart');
+	
 	
 	
 	
 	//route to the function delete cart
 	route::delete('/menu/mycart/{id}/delete', 'ItemController@deletecart');
 	
-	//route to the function to clear the cart
-	route::post('/menu/clearcart', 'ItemController@clearcart');
+	
 	
 	//route to update the item quantity
 	route::patch('/menu/mycart/{id}/updatecart', 'ItemController@updatecart');
+
+	//checkout
+	route::get('/checkout', 'ItemController@checkout');
+
+	route::get('/transaction', 'ItemController@transaction');
 	
 	//route to update the item
 	route::put('/menu/{id}', 'ItemController@updateitem');

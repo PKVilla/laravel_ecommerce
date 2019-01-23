@@ -59,6 +59,7 @@
 						</tbody>
 					</table>
 					<button class="btn btn-success"><a href="/catalog">Go back to Shop!</a></button>
+					<button class="btn btn-success"><a href="/checkout">Check Out</a></button>
 					<br>
 					<form action="/menu/clearcart" method="POST">
 					{{ csrf_field() }}
