@@ -14,7 +14,7 @@
 
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('sample');
 });
 
 	route::middleware('auth')->group(function(){
