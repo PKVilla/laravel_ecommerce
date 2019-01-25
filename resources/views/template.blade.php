@@ -2,13 +2,13 @@
 <html>
 <head>
 	<title>@yield('title')</title>
-	@include('header')
+	@include('header') <!-- this is called directives -->
 </head>
 <body>
 
 	@include('nav')
 
-	@yield('body')
+	@yield('body') <!-- user defined ('body') -->
 
 	@yield('admin_body')
 	
